@@ -13,7 +13,7 @@ atomic_tests:
   input_arguments:
     psexec_exe:
       description: Path to PsExec executable
-      type: Path
+      type: path
       default: PathToAtomicsFolder\T1003.004\bin\PsExec.exe
   dependency_executor_name: powershell
   dependencies:
@@ -25,7 +25,7 @@ atomic_tests:
       New-Item -ItemType Directory (Split-Path #{psexec_exe}) -Force | Out-Null
       Copy-Item $env:TEMP\PSTools\PsExec.exe #{psexec_exe} -Force
   executor:
-    command: '#{psexec_exe} -accepteula -s reg save HKLM\security\policy\secrets %temp%\secrets'
+    command: '#{psexec_exe} -accepteula -s reg save HKLM\security\policy\secrets %temp%\secrets /y'
     cleanup_command: del %temp%\secrets >nul 2> nul
     name: command_prompt
     elevation_required: true
